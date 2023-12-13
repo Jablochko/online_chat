@@ -1,0 +1,34 @@
+.messageBlock {
+    padding: 20px;
+    height: 10vh;
+}
+
+.form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userMessage {
+    width: 80%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    padding: 15px;
+}
+
+.btnSend {
+    width: 150px;
+    border-color: green;
+    padding: 10px;
+    border: none;
+    color: #eae3d2;
+    cursor: pointer;
+}
+
+.btnSend:hover {
+    background-color: rgb(129, 201, 129);
+}

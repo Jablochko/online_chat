@@ -1,0 +1,41 @@
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgb(124,30,255);
+    background: linear-gradient(180deg, rgba(124,30,255,1) 0%, rgba(9,9,121,1) 45%, rgba(2,0,36,1) 100%);
+}
+
+h2{
+    color: black;
+    font-size: 30px;
+}
+
+.container>* {
+    margin-bottom: 10px;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.userInput {
+    padding: 10px;
+    width: 50%;
+}
+
+.homeBtn {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #6618a6;
+    color: #f9f5eb;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}

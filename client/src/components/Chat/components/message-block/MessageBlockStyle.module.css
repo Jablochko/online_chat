@@ -25,10 +25,12 @@
     border-color: green;
     padding: 10px;
     border: none;
-    color: #eae3d2;
+    color: #000000;
     cursor: pointer;
+    background-color: rgb(129, 201, 129);
+    text-transform: uppercase;
 }
 
 .btnSend:hover {
-    background-color: rgb(129, 201, 129);
+    background-color: rgb(7, 179, 50);
 }

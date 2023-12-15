@@ -2,7 +2,7 @@
     height: 10vh;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 20px;
     border-bottom: 1px solid #bfbddb;
 }
@@ -17,8 +17,6 @@
     color: #eae3d2;
 }
 
-
-
 .container {
     height: 80vh;
     border-color: #fff;
@@ -30,12 +28,12 @@
     margin-bottom: 10px;
 }
 
-.chats>p {
+.senderName {
     text-align: right;
 }
 
-.senderName {
-    text-align: right;
+.recipientName{
+    text-align: left;
 }
 
 .messageSender {
@@ -60,4 +58,12 @@
     font-size: 13px;
     font-style: italic;
     bottom: 60px;
+}
+
+.userLogin{
+    font-size: 20px;
+}
+.userLogin span{
+    color: #687eaa;
+    cursor: pointer;
 }

@@ -7,6 +7,10 @@ import style from './ChatStyles.module.css'
 const ChatPage = ({ socket }) => {
     const [messages, setMessages] = useState([])
     const [status, setStatus] = useState('')
+    const [users, setUsers] = useState([])
+    useEffect(() => {
+        socket.on('allUsers', (data) => setUsers(data))
+    }, [socket, users])
 
     useEffect(() => {
         socket.on('responseTyping', (data) => {
@@ -16,16 +20,16 @@ const ChatPage = ({ socket }) => {
     }, [socket])
 
     useEffect(() => {
-        socket.on('response', (data) => {
+        socket.on('newMessage', (data) => {
             setMessages([...messages, data])
         })
     }, [socket, messages])
 
     return (
         <div className={style.chat}>
-            <Sidebar socket={socket} />
+            <Sidebar socket={socket} users={users}/>
             <main className={style.main}>
-                <Body messages={messages} status={status} />
+                <Body messages={messages} status={status} socket={socket}  users={users}/>
                 <MessageBlock socket={socket} />
             </main>
         </div>

@@ -9,12 +9,7 @@ const MessageBlock = ({ socket }) => {
     const handleSend = (e) => {
         e.preventDefault()
         if (message.trim() && localStorage.getItem('user')) {
-            socket.emit('message', {
-                text: message,
-                name: localStorage.getItem('user'),
-                id: `${socket.id} - ${Math.random()}`,
-                socketId: socket.id,
-            })
+            socket.emit('message', message)
         }
         setMessage('')
     }

@@ -2,11 +2,14 @@ import React from 'react'
 import style from './BodyStyles.module.css'
 import { useNavigate } from 'react-router-dom'
 
-const Body = ({ messages, status }) => {
+const Body = ({ messages, status, socket, users }) => {
 
     const navigate = useNavigate()
 
     const handleLeave = () => {
+        socket.emit("disconnection",{
+            user: localStorage.getItem('user')
+        })
         localStorage.removeItem('user')
         navigate('/')
     }
@@ -14,22 +17,23 @@ const Body = ({ messages, status }) => {
     return (
         <>
             <header className={style.headerBody}>
+                <div className={style.userLogin}>Ваш логин: <span>{localStorage.getItem('user')}</span></div>
                 <button onClick={handleLeave} className={style.btnOut}>Покинуть чат</button>
             </header>
 
             <div className={style.container}>
                 {
                     messages.map(mess =>
-                        mess.name === localStorage.getItem('user') ? (
-                            <div className={style.chats} key={mess.id}>
-                                <p className={style.senderName}>{mess.name}</p>
+                        mess.from === localStorage.getItem('user') ? (
+                            <div className={style.chats} key={Math.random()}>
+                                <p className={style.senderName}>{mess.from}</p>
                                 <div className={style.messageSender}>
                                     <p>{mess.text}</p>
                                 </div>
                             </div>
                         ) : (
-                            <div className={style.chats}>
-                                <p>{mess.name}</p>
+                            <div className={style.chats} key={mess.id}>
+                                <p>{mess.from}</p>
                                 <div className={style.messageRecipient}>
                                     <p>{mess.text}</p>
                                 </div>
@@ -39,7 +43,7 @@ const Body = ({ messages, status }) => {
                 }
 
                 <div className={style.status}>
-                    <p>--{status}</p>
+                    <p>{status}</p>
                 </div>
 
             </div>

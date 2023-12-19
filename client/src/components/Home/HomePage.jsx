@@ -8,12 +8,11 @@ const HomePage = ({ socket }) => {
 
     const heandleSubmit = (e) => {
         e.preventDefault()
-        localStorage.setItem("user", user)
-        socket.emit('newUser', {
-            user,
-            socketId: socket.id
-        })
-        navigate("/chat")
+        if (user !== "") {
+            localStorage.setItem("user", user)
+            socket.emit('newUser', user)
+            navigate("/chat")
+        }
     }
 
     return (
@@ -29,7 +28,7 @@ const HomePage = ({ socket }) => {
                     setUser(e.target.value)
                 }}
                 className={style.userInput} />
-                 <input
+            <input
                 type="text"
                 placeholder='Введите ваш пароль...'
                 className={style.userInput} />

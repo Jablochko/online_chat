@@ -28,6 +28,10 @@ h2{
     width: 50%;
 }
 
+.errorInput{
+    border: 1px ;
+}
+
 .homeBtn {
     width: 200px;
     padding: 10px;

@@ -10,7 +10,7 @@ const socketIO = require('socket.io')(http, {
 const PORT = 3001;
 
 const sockets = {}
-const chatUsers = {}
+const users = {}
 
 function newId(){
     const id = Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100);
@@ -20,35 +20,40 @@ function newId(){
 
 socketIO.on("connection", (socket) => {
     socket.on('message', (message) => {
-        socketIO.emit('newMessage', {
-            text: message.text,
+        socketIO.emit('newMessage',{
+            text: message,
             from: socket.data.name,
             chatId: message.chatId
         })
     });
+    // статутс 
     socket.on('typing', (data) => socket.emit('responseTyping', data))
+    // 
     socket.on('newUser', (nickname) => {
         const user = {
             name: nickname,
             chats: {},
         }
-        sockets[user.name] = socket;
+        sockets[user.name] = socket.id;
         socket.data.user = user;
         socketIO.emit('allUsers', Object.keys(sockets));
-        console.log(Object.keys(sockets));
+        // console.log(Object.keys(sockets));
     })
-    socket.on('newChat',(data = null)=>{
+    // добавить новый чат
+    socket.on('newChat',(data = {name: "New Chat", members: []})=>{
         const user = socket.data.user;
         const chatId = newId();
         user.chats[chatId] = {
-            name: data,
-            members: [user]
+            id: chatId,
+            name: data.name,
+            members: data.members.push(user)
         };
         socket.join(chatId);
     })
+    // показать список чатов
     socket.on('allChats',()=>{
-        const user = users[socket.data.name];
-        socketIO.emit('allChats', user.chats.map((chat, key) =>{
+        const user = socket.data.user;
+        socket.emit('allChats', user.chats.map((chat, key) =>{
             return {
                 name: chat.name,
                 members: chat.members.map(member => member.name),
@@ -56,6 +61,7 @@ socketIO.on("connection", (socket) => {
             }
         }))
     })
+    // показать чат
     socket.on('inviteChat',(data)=>{
         const user = socket.data.user;
         const newMemberSocket = sockets[data.name];
@@ -63,6 +69,7 @@ socketIO.on("connection", (socket) => {
         newMemberSocket.join(data.chatId);
     })
     socket.on("disconnection", (data) => {
+        socketIO.emit('allUsers', Object.keys(sockets));
     })
 })
 

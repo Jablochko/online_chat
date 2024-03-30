@@ -8,9 +8,10 @@ const ChatPage = ({ socket }) => {
     const [messages, setMessages] = useState([])
     const [status, setStatus] = useState('')
     const [users, setUsers] = useState([])
-    useEffect(() => {
-        socket.on('allUsers', (data) => setUsers(data))
-    }, [socket, users])
+    const [chats, setChats] = useState([])
+    const [chat, setChat] = useState(null);
+
+    socket.on('allUsers', (data) => setUsers(data))
 
     useEffect(() => {
         socket.on('responseTyping', (data) => {
@@ -27,9 +28,9 @@ const ChatPage = ({ socket }) => {
 
     return (
         <div className={style.chat}>
-            <Sidebar socket={socket} users={users}/>
+            <Sidebar chats={chats} users={users} />
             <main className={style.main}>
-                <Body messages={messages} status={status} socket={socket}  users={users}/>
+                <Body messages={messages} status={status} socket={socket} users={users} />
                 <MessageBlock socket={socket} />
             </main>
         </div>

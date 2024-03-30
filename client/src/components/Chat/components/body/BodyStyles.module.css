@@ -1,5 +1,6 @@
 .headerBody {
-    height: 10vh;
+    min-height: 80px;
+    min-width: 500px;
     display: flex;
     align-items: center;
     justify-content: space-between;

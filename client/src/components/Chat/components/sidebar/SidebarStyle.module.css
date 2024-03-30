@@ -1,20 +1,21 @@
 .sidebar {
-    height: 100%;
+    position: relative;
+    min-height: 100%;
+    min-width: 350px;
+    max-width: 350px;
     background-color: #ffffff;
-    border-right: 1px solid #dfbdbd;    
+    border-right: 1px solid #dfbdbd;
+    padding: 5px;
 }
 
 .header {
     padding: 20px;
     font-size: 25px;
+    margin-bottom: 10px;
 }
 
 .usersList {
     margin-bottom: 10px;
-    color: #687eaa;
-    font-size: 16px;
-    font-weight: 700;
-    list-style: none;
 }
 
 .usersList>li {
@@ -23,9 +24,32 @@
 
 .userAccount {
     padding: 0px 0px 20px 20px;
-    border-bottom: 1px solid black;
+    border-radius: 10px;
+    min-height: 7vh;
+    font-size: 16px;
+    font-weight: 700;
+    color: #687eaa;
+    list-style: none;
 }
 
 .userAccount:hover {
     background-color: rgba(202, 202, 202, 0.7);
+}
+
+.seachUser {
+    position: absolute;
+    top: 92vh;
+    left: 12vw;
+    min-width: 110px;
+    color: #ffffff;
+    font-size: 14px;
+    background-color: #687eaa;
+}
+
+.seachUser:hover {
+    background-color: #738cbd;
+}
+
+.accept {
+    background-color: #ff0;
 }

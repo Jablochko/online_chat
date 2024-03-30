@@ -17,7 +17,7 @@ const Body = ({ messages, status, socket, users }) => {
     return (
         <>
             <header className={style.headerBody}>
-                <div className={style.userLogin}>Ваш логин: <span>{localStorage.getItem('user')}</span></div>
+                <div className={style.userLogin}>Ваш ник: <span>{localStorage.getItem('user')}</span></div>
                 <button onClick={handleLeave} className={style.btnOut}>Покинуть чат</button>
             </header>
 
@@ -25,14 +25,14 @@ const Body = ({ messages, status, socket, users }) => {
                 {
                     messages.map(mess =>
                         mess.from === localStorage.getItem('user') ? (
-                            <div className={style.chats} key={Math.random()}>
+                             <div className={style.chats} key={Math.random()}>
                                 <p className={style.senderName}>{mess.from}</p>
                                 <div className={style.messageSender}>
                                     <p>{mess.text}</p>
                                 </div>
                             </div>
                         ) : (
-                            <div className={style.chats} key={mess.id}>
+                            <div className={style.chats} key={Math.random()}>
                                 <p>{mess.from}</p>
                                 <div className={style.messageRecipient}>
                                     <p>{mess.text}</p>

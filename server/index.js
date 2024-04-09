@@ -13,8 +13,17 @@ const sockets = {}
 const users = {}
 
 function newId(){
-    const id = Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100) + '' + Math.trunc(Math.random()*100);
+    const id = Math.trunc(Math.random()*10000000000000);
     return id;
+}
+
+function getAllUsers(){
+    return Object.keys(users).map(id =>{
+        return {
+            name: users[id].name,
+            id: id
+        }
+    })
 }
 
 
@@ -27,17 +36,21 @@ socketIO.on("connection", (socket) => {
         })
     });
     // статутс 
-    socket.on('typing', (data) => socket.emit('responseTyping', data))
+    socket.on('typing', (data) => socket.emit('responseTyping', data));
+
+    socket.on("getAllUsers", () => {
+        socket.emit("allUsers", getAllUsers());
+    })
     // 
     socket.on('newUser', (nickname) => {
         const user = {
+            id: newId(),
             name: nickname,
-            chats: {},
+            chats: {}
         }
-        sockets[user.name] = socket.id;
-        socket.data.user = user;
-        socketIO.emit('allUsers', Object.keys(sockets));
-        // console.log(Object.keys(sockets));
+        sockets[socket.id] = user.id;
+        users[user.id] = user;
+        socketIO.emit('allUsers', getAllUsers());
     })
     // добавить новый чат
     socket.on('newChat',(data = {name: "New Chat", members: []})=>{
@@ -69,7 +82,8 @@ socketIO.on("connection", (socket) => {
         newMemberSocket.join(data.chatId);
     })
     socket.on("disconnection", (data) => {
-        socketIO.emit('allUsers', Object.keys(sockets));
+        delete(users[sockets[socket.id]]);
+        socketIO.emit('allUsers', getAllUsers());
     })
 })
 

@@ -1,0 +1,17 @@
+.cell {
+    padding: 0px 0px 20px 20px;
+    border-radius: 10px;
+    min-height: 7vh;
+    font-size: 16px;
+    font-weight: 700;
+    color: #687eaa;
+    list-style: none;
+}
+
+.cell:hover {
+    background-color: rgba(202, 202, 202, 0.7);
+}
+
+.accept {
+    background-color: rgba(144, 139, 148, 0.5);
+}

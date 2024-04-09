@@ -2,24 +2,49 @@ import React, { useRef, useEffect, useState } from 'react'
 import style from './SidebarStyle.module.css'
 import Cell from './Cell/Cell'
 
-const Sidebar = ({ chats, users, setChat }) => {
-
-    const [showUsers, setShowUsers] = useState(false)
-    const [showChatsStr, setShowChatsStr] = useState(true)
-    const [acceptUser, setAcceptUser] = useState(false)
-
-    const listFormat = (list) => {
-        /* return list.map(elem => (
-             <li key={Math.random()}><div className={style.userAccount + " " + ((acceptUser) ? style.accept : "")} onClick={(showUsers) ? (event) => clickUserHandler(elem,event) : () => clickChatHandler(elem)}>{elem}</div></li>
-         ))*/
-        return list.map(elem => <Cell data={elem} handler={clickUserHandler}/>)
-    }
+const Sidebar = ({ socket, setActiveChat}) => {
 
     let newChatUsers = [];
+    const [showUsers, setShowUsers] = useState(false)
+    //const [showChatsStr, setShowChatsStr] = useState(true)
+    const [acceptUser, setAcceptUser] = useState(false)
+    const [users, setUsers] = useState({});
 
-    const clickUserHandler = (user, event) => {
-        newChatUsers.push(user);
-        setAcceptUser(!acceptUser)
+    useEffect(() => {
+        socket.on('allUsers', (users) => {
+            /*{
+                name: string,
+                id: number,
+            }*/
+            const userList = {}
+            users.forEach(user => {
+                userList[user.id] = {
+                    name: user.name,
+                    id: user.id
+                }
+            })
+            setUsers(userList)
+        });
+
+    }, [socket]);
+
+    const listFormat = () => {
+        const list = [];
+        if (showUsers) return Object.values(users).map(user =>
+            <Cell key={user.id} data={user} onclick={clickUserHandler}/> 
+        );
+        return ("chats");
+         /*return list.map(elem => (
+             <li key={Math.random()}><div className={style.userAccount + " " + ((acceptUser) ? style.accept : "")} onClick={(showUsers) ? (event) => clickUserHandler(elem,event) : () => clickChatHandler(elem)}>{elem}</div></li>
+         ))*/
+        // return list.map(elem => <Cell data={elem} handler={clickUserHandler}/>)
+    }
+
+    /*let newChatUsers = [];*/
+
+    const clickUserHandler = (userId) => {
+        //newChatUsers.push(userId);
+        //console.log(newChatUsers);
     }
 
     const clickChatHandler = (chat) => {
@@ -27,18 +52,15 @@ const Sidebar = ({ chats, users, setChat }) => {
     }
 
     const showUsersHandler = () => {
-        console.log(chats, users);
-        newChatUsers = [];
         setShowUsers(!showUsers);
-        setShowChatsStr(!showChatsStr)
+        newChatUsers = [];
     }
 
     return (
-
         <div className={style.sidebar}>
-            <h4 className={style.header}>{showChatsStr ? "Список чатов" : "Список пользователей"}</h4>
+            <h4 className={style.header}>{!showUsers ? "Список чатов" : "Список пользователей"}</h4>
             <ul className={style.usersList}>
-                {listFormat( showUsers  ? users : chats)}
+                {listFormat()}
             </ul>
             <button
                 className={style.seachUser}

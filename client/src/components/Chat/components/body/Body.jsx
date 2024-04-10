@@ -2,12 +2,12 @@ import React from 'react'
 import style from './BodyStyles.module.css'
 import { useNavigate } from 'react-router-dom'
 
-const Body = ({ messages, status, socket, users }) => {
+const Body = ({ messages, status, socket }) => {
 
     const navigate = useNavigate()
 
     const handleLeave = () => {
-        socket.emit("disconnection",{
+        socket.emit("disconnection", {
             user: localStorage.getItem('user')
         })
         localStorage.removeItem('user')
@@ -24,8 +24,8 @@ const Body = ({ messages, status, socket, users }) => {
             <div className={style.container}>
                 {
                     messages.map(mess =>
-                        mess.from === localStorage.getItem('user') ? (
-                             <div className={style.chats} key={Math.random()}>
+                        mess.from !== localStorage.getItem('user') ? (
+                            <div className={style.chats} key={Math.random()}>
                                 <p className={style.senderName}>{mess.from}</p>
                                 <div className={style.messageSender}>
                                     <p>{mess.text}</p>

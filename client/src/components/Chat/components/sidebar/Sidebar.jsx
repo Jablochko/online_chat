@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import style from './SidebarStyle.module.css'
 import Cell from './Cell/Cell'
 
-const Sidebar = ({ socket, setActiveChat}) => {
+const Sidebar = ({ socket, setActiveChat }) => {
 
     let newChatUsers = [];
     const [showUsers, setShowUsers] = useState(false)
@@ -31,12 +31,12 @@ const Sidebar = ({ socket, setActiveChat}) => {
     const listFormat = () => {
         const list = [];
         if (showUsers) return Object.values(users).map(user =>
-            <Cell key={user.id} data={user} onclick={clickUserHandler}/> 
+            <Cell key={user.id} data={user} onclick={clickUserHandler} />
         );
         return ("chats");
-         /*return list.map(elem => (
-             <li key={Math.random()}><div className={style.userAccount + " " + ((acceptUser) ? style.accept : "")} onClick={(showUsers) ? (event) => clickUserHandler(elem,event) : () => clickChatHandler(elem)}>{elem}</div></li>
-         ))*/
+        /*return list.map(elem => (
+            <li key={Math.random()}><div className={style.userAccount + " " + ((acceptUser) ? style.accept : "")} onClick={(showUsers) ? (event) => clickUserHandler(elem,event) : () => clickChatHandler(elem)}>{elem}</div></li>
+        ))*/
         // return list.map(elem => <Cell data={elem} handler={clickUserHandler}/>)
     }
 
@@ -58,12 +58,14 @@ const Sidebar = ({ socket, setActiveChat}) => {
 
     return (
         <div className={style.sidebar}>
-            <h4 className={style.header}>{!showUsers ? "Список чатов" : "Список пользователей"}</h4>
-            <ul className={style.usersList}>
-                {listFormat()}
-            </ul>
+            <div className={style.headerDiv}><h4 className={style.header}>{!showUsers ? "Список чатов" : "Список пользователей"}</h4></div>
+            <div className={style.userListDiv}>
+                <ul className={style.usersList}>
+                    {listFormat()}
+                </ul>
+            </div>
             <button
-                className={style.seachUser}
+                className={style.searchUser}
                 onClick={showUsersHandler}
             >{showUsers ? "Отмена" : "Добавить"}</button>
         </div>

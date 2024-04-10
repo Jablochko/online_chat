@@ -12,13 +12,13 @@ const PORT = 3001;
 const sockets = {}
 const users = {}
 
-function newId(){
-    const id = Math.trunc(Math.random()*10000000000000);
+function newId() {
+    const id = Math.trunc(Math.random() * 10000000000000);
     return id;
 }
 
-function getAllUsers(){
-    return Object.keys(users).map(id =>{
+function getAllUsers() {
+    return Object.keys(users).map(id => {
         return {
             name: users[id].name,
             id: id
@@ -29,7 +29,7 @@ function getAllUsers(){
 
 socketIO.on("connection", (socket) => {
     socket.on('message', (message) => {
-        socketIO.emit('newMessage',{
+        socketIO.emit('newMessage', {
             text: message,
             from: socket.data.name,
             chatId: message.chatId
@@ -53,7 +53,7 @@ socketIO.on("connection", (socket) => {
         socketIO.emit('allUsers', getAllUsers());
     })
     // добавить новый чат
-    socket.on('newChat',(data = {name: "New Chat", members: []})=>{
+    socket.on('newChat', (data = { name: "New Chat", members: [] }) => {
         const user = socket.data.user;
         const chatId = newId();
         user.chats[chatId] = {
@@ -64,9 +64,9 @@ socketIO.on("connection", (socket) => {
         socket.join(chatId);
     })
     // показать список чатов
-    socket.on('allChats',()=>{
+    socket.on('allChats', () => {
         const user = socket.data.user;
-        socket.emit('allChats', user.chats.map((chat, key) =>{
+        socket.emit('allChats', user.chats.map((chat, key) => {
             return {
                 name: chat.name,
                 members: chat.members.map(member => member.name),
@@ -75,14 +75,14 @@ socketIO.on("connection", (socket) => {
         }))
     })
     // показать чат
-    socket.on('inviteChat',(data)=>{
+    socket.on('inviteChat', (data) => {
         const user = socket.data.user;
         const newMemberSocket = sockets[data.name];
         user.chats[data.chatId].push(newMemberSocket.data.user);
         newMemberSocket.join(data.chatId);
     })
     socket.on("disconnection", (data) => {
-        delete(users[sockets[socket.id]]);
+        delete (users[sockets[socket.id]]);
         socketIO.emit('allUsers', getAllUsers());
     })
 })

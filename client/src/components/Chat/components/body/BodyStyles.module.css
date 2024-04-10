@@ -19,6 +19,7 @@
 }
 
 .container {
+    position: relative;
     height: 80vh;
     border-color: #fff;
     padding: 20px;
@@ -55,7 +56,8 @@
 }
 
 .status{
-    position: fixed;
+    position: absolute;
+    top: 98%;
     font-size: 13px;
     font-style: italic;
     bottom: 60px;

@@ -28,10 +28,6 @@ const HomePage = ({ socket }) => {
                     setUser(e.target.value)
                 }}
                 className={style.userInput} />
-            <input
-                type="text"
-                placeholder='Введите ваш пароль...'
-                className={style.userInput} />
             <button type='submit' className={style.homeBtn}>Bойти</button>
         </form>
     )

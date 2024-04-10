@@ -1,8 +1,8 @@
 .chat{
-    width: 100%;
-    height: 100vh;
+    /* max-width: 100vw; */
+    max-height: 100vh;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .main{

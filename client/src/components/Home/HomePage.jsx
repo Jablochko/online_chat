@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import style from './HomeStyles.module.css'
 
-const HomePage = ({ socket }) => {
+const HomePage = ({ socket, setUserData }) => {
     const navigate = useNavigate()
     const [user, setUser] = useState("")
 
     const heandleSubmit = (e) => {
         e.preventDefault()
         if (user !== "") {
-            localStorage.setItem("user", user)
-            socket.emit('newUser', user)
-            navigate("/chat")
+            socket.emit('newUser', user);
+            navigate("/chat");
+            setUserData(user);
         }
     }
 

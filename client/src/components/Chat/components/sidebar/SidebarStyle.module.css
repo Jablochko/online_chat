@@ -1,13 +1,11 @@
 .sidebar {
-    position: relative;
-    top: 0;
-    left: 0;
-    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     min-width: 350px;
     max-width: 350px;
     background-color: #ffffff;
     border-right: 1px solid #dfbdbd;
-    padding: 5px;
 }
 
 .headerDiv {
@@ -17,30 +15,42 @@
     max-height: 80px;
     min-height: 80px;
     padding-bottom: 15px;
-    margin-bottom: 15px;
+    border-bottom: 1px solid #687eaa;
+}
+
+.userListDiv {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 5px;
+}
+
+.buttonsDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 10vh;
+    border-top:1px solid rgb(1, 47, 175) ;
 }
 
 .header {
     font-size: 25px;
 }
 
-.usersList {
-    margin-bottom: 10px;
-}
 
-.userListDiv {
-    overflow: auto;
-    max-height: 100%;
-}
-
-.userListDiv::-webkit-scrollbar{
+.userListDiv::-webkit-scrollbar {
     width: 6px;
 }
 
 
-.userListDiv::-webkit-scrollbar-thumb{
+.userListDiv::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
+}
+
+.userListDiv::-webkit-scrollbar-track{
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .usersList>li {
@@ -59,12 +69,10 @@
 
 .userAccount:hover {
     background-color: rgba(202, 202, 202, 0.7);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .searchUser {
-    position: absolute;
-    top: 92%;
-    left: 60%;
     min-width: 110px;
     color: #ffffff;
     font-size: 14px;
@@ -76,5 +84,17 @@
 }
 
 .accept {
-    background-color: rgba(144, 139, 148, 0.5);
+    background-color: rgba(144, 139, 148, 0.3);
+}
+
+.createChat {
+    margin: 20px;
+    min-width: 110px;
+    color: #ffffff;
+    font-size: 14px;
+    background-color: #687eaa;
+}
+
+.createChat:hover {
+    background-color: #738cbd;
 }

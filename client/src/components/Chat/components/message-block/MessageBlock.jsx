@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import style from './MessageBlockStyle.module.css'
 
-const MessageBlock = ({ socket }) => {
+const MessageBlock = ({ socket, user }) => {
     const [message, setMessage] = useState('')
 
-    const isTyping = () => socket.emit('typing', `${localStorage.getItem('user')} печатает...`)
+    const isTyping = () => socket.emit('typing', `${user} печатает...`)
 
     const handleSend = (e) => {
         e.preventDefault()

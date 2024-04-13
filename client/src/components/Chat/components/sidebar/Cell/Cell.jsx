@@ -5,7 +5,7 @@ export default function Cell({data, onclick}) {
     const [selected, setSelected] = useState(false);
 
     const onClickHandler = () => {
-        onclick(data.id);
+        onclick(data.id, selected);
         setSelected(!selected);
     }
 

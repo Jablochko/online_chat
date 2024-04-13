@@ -4,11 +4,11 @@ import Cell from './Cell/Cell'
 
 const Sidebar = ({ socket, setActiveChat }) => {
 
-    let newChatUsers = [];
+    let newChatUsers = {};
     const [showUsers, setShowUsers] = useState(false)
-    //const [showChatsStr, setShowChatsStr] = useState(true)
     const [acceptUser, setAcceptUser] = useState(false)
     const [users, setUsers] = useState({});
+    const [createChat, setCreateChat] = useState(false);
 
     useEffect(() => {
         socket.on('allUsers', (users) => {
@@ -43,31 +43,52 @@ const Sidebar = ({ socket, setActiveChat }) => {
     /*let newChatUsers = [];*/
 
     const clickUserHandler = (userId) => {
-        //newChatUsers.push(userId);
-        //console.log(newChatUsers);
+        if (!newChatUsers[userId]) {
+            newChatUsers[userId] = true
+            if (!createChat) setCreateChat(true);
+        }
+        else {
+            delete (newChatUsers[userId]);
+            if (Object.keys(newChatUsers)[0]) setCreateChat(false);
+        }
+        console.log(createChat);
     }
 
     const clickChatHandler = (chat) => {
         setChat(chat.id)
     }
 
-    const showUsersHandler = () => {
+    function setChatsUsersList() {
         setShowUsers(!showUsers);
-        newChatUsers = [];
+        newChatUsers = {};
+        setCreateChat(false);
+    }
+
+    const showUsersHandler = () => setChatsUsersList();
+
+    const createChatClickHandler = () => {
+        console.log(Object.keys(newChatUsers));
+        setChatsUsersList();
     }
 
     return (
         <div className={style.sidebar}>
+
             <div className={style.headerDiv}><h4 className={style.header}>{!showUsers ? "Список чатов" : "Список пользователей"}</h4></div>
+
             <div className={style.userListDiv}>
                 <ul className={style.usersList}>
                     {listFormat()}
                 </ul>
             </div>
-            <button
-                className={style.searchUser}
-                onClick={showUsersHandler}
-            >{showUsers ? "Отмена" : "Добавить"}</button>
+
+            <div className={style.buttonsDiv}>
+                {createChat ? <button className={style.createChat} onClick={createChatClickHandler}>Создать чат</button> : <></>}
+                <button
+                    className={style.searchUser}
+                    onClick={showUsersHandler}
+                >{showUsers ? "Отмена" : "Добавить"}</button>
+            </div>
         </div>
     )
 }

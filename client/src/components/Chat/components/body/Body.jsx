@@ -2,22 +2,20 @@ import React from 'react'
 import style from './BodyStyles.module.css'
 import { useNavigate } from 'react-router-dom'
 
-const Body = ({ messages, status, socket }) => {
+const Body = ({ messages, status, socket, user, setUserData }) => {
 
     const navigate = useNavigate()
 
     const handleLeave = () => {
-        socket.emit("disconnection", {
-            user: localStorage.getItem('user')
-        })
-        localStorage.removeItem('user')
+        socket.emit("disconnection");
+        setUserData(null);
         navigate('/')
     }
 
     return (
         <>
             <header className={style.headerBody}>
-                <div className={style.userLogin}>Ваш ник: <span>{localStorage.getItem('user')}</span></div>
+                <div className={style.userLogin}>Ваш ник: <span>{user}</span></div>
                 <button onClick={handleLeave} className={style.btnOut}>Покинуть чат</button>
             </header>
 

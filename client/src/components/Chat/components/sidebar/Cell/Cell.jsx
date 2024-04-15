@@ -1,17 +1,11 @@
 import { useState } from "react";
 import style from './Cell.module.css'
 
-export default function Cell({data, onclick}) {
-    const [selected, setSelected] = useState(false);
-
-    const onClickHandler = () => {
-        onclick(data.id, selected);
-        setSelected(!selected);
-    }
+export default function Cell({data, onClick, selected = false}) {
 
     return (
         <div key={data.id}
             className={style.cell + " " + ((selected) ? style.accept : "")} 
-            onClick={onClickHandler}>{data.name}</div>
+            onClick={() => onClick(data.id)}>{data.name}</div>
         );
 }

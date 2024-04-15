@@ -26,12 +26,34 @@ function getAllUsers() {
     })
 }
 
+function getUserChats(userId) {
+    return users[userId].chats.map(chat => {
+        return {
+            chatId: chat,
+            members: Array.from(socketIO.sockets.adapter.rooms.get(chat)).map(val => val)
+        }
+    })
+}
+
+function joinChat(userId, chatId) {
+    users[userId].chats.push(chatId);
+    const socket = socketIO.sockets.sockets.get(users[userId].socket);
+    if (socket) {
+        socket.join(chatId);
+        socket.emit("chatList", getUserChats(userId));
+        socketIO.to(chatId).emit("alert", {
+            chatId: chatId,
+            message: `Пользователь ${users[userId].name} присоединился к чату`,
+        });
+    };
+}
+
 
 socketIO.on("connection", (socket) => {
     socket.on('message', (message) => {
-        socketIO.emit('newMessage', {
-            text: message,
-            from: socket.data.name,
+        socketIO.to(message.chatId).emit('newMessage', {
+            text: message.text,
+            from: users[sockets[socket.id]].name,
             chatId: message.chatId
         })
     });
@@ -46,7 +68,8 @@ socketIO.on("connection", (socket) => {
         const user = {
             id: newId(),
             name: nickname,
-            chats: {}
+            socket: socket.id,
+            chats: [],
         }
         sockets[socket.id] = user.id;
         users[user.id] = user;
@@ -54,14 +77,19 @@ socketIO.on("connection", (socket) => {
     })
     // добавить новый чат
     socket.on('newChat', (data = { name: "New Chat", members: [] }) => {
-        const user = socket.data.user;
         const chatId = newId();
+        data.members.forEach(member => joinChat(member - 0, chatId));
+        joinChat(sockets[socket.id], chatId);
+        // console.log(socketIO.sockets.adapter.rooms.get(chatId));
+        //socketIO.to(chatId).emit("newChat", );
+        /*const user = socket.data.user;
+        
         user.chats[chatId] = {
             id: chatId,
             name: data.name,
             members: data.members.push(user)
         };
-        socket.join(chatId);
+        socket.join(chatId);*/
     })
     // показать список чатов
     socket.on('allChats', () => {
@@ -82,6 +110,10 @@ socketIO.on("connection", (socket) => {
         newMemberSocket.join(data.chatId);
     })
     socket.on("disconnection", (data) => {
+        delete (users[sockets[socket.id]]);
+        socketIO.emit('allUsers', getAllUsers());
+    })
+    socket.on("disconnect", (data) => {
         delete (users[sockets[socket.id]]);
         socketIO.emit('allUsers', getAllUsers());
     })

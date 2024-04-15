@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react'
 import style from './SidebarStyle.module.css'
 import Cell from './Cell/Cell'
+import User from './User/User'
 
-const Sidebar = ({ socket, setActiveChat }) => {
+const Sidebar = ({ socket, setActiveChat, activeChat }) => {
 
-    let newChatUsers = {};
+    const [newChatUsers, setChatUsers] = useState({});
     const [showUsers, setShowUsers] = useState(false)
     const [acceptUser, setAcceptUser] = useState(false)
     const [users, setUsers] = useState({});
+    const [chats, setChats] = useState({})
     const [createChat, setCreateChat] = useState(false);
 
     useEffect(() => {
@@ -26,21 +28,29 @@ const Sidebar = ({ socket, setActiveChat }) => {
             setUsers(userList)
         });
 
+        socket.on('chatList', (chats) => {
+
+            console.log(chats)
+            const chatList = {}
+            chats.forEach(chat => {
+                chatList[chat.chatId] = {
+                    name: `Чат: ${chat.chatId}`,
+                    id: chat.chatId,
+                    members: chat.members
+                }
+            })
+            setChats(chatList)
+        })
     }, [socket]);
 
     const listFormat = () => {
-        const list = [];
         if (showUsers) return Object.values(users).map(user =>
-            <Cell key={user.id} data={user} onclick={clickUserHandler} />
+            <User key={user.id} data={user} onClick={clickUserHandler} />
         );
-        return ("chats");
-        /*return list.map(elem => (
-            <li key={Math.random()}><div className={style.userAccount + " " + ((acceptUser) ? style.accept : "")} onClick={(showUsers) ? (event) => clickUserHandler(elem,event) : () => clickChatHandler(elem)}>{elem}</div></li>
-        ))*/
-        // return list.map(elem => <Cell data={elem} handler={clickUserHandler}/>)
+        return Object.values(chats).map(chat =>
+            <Cell key={chat.id} data={chat} onClick={clickChatHandler} selected={(chat.id === activeChat?.id)}/>
+        );
     }
-
-    /*let newChatUsers = [];*/
 
     const clickUserHandler = (userId) => {
         if (!newChatUsers[userId]) {
@@ -49,25 +59,30 @@ const Sidebar = ({ socket, setActiveChat }) => {
         }
         else {
             delete (newChatUsers[userId]);
-            if (Object.keys(newChatUsers)[0]) setCreateChat(false);
+            console.log(Object.keys(newChatUsers).length);
+            if (Object.keys(newChatUsers).length === 0) {
+                setCreateChat(false)
+            };
         }
-        console.log(createChat);
     }
 
-    const clickChatHandler = (chat) => {
-        setChat(chat.id)
+    const clickChatHandler = (chatId) => {
+        setActiveChat(chats[chatId]);
     }
 
     function setChatsUsersList() {
         setShowUsers(!showUsers);
-        newChatUsers = {};
+        setChatUsers({});
         setCreateChat(false);
     }
 
     const showUsersHandler = () => setChatsUsersList();
 
     const createChatClickHandler = () => {
-        console.log(Object.keys(newChatUsers));
+        socket.emit("newChat", {
+            members: Object.keys(newChatUsers),
+            name: "Новый чат"
+        })
         setChatsUsersList();
     }
 
@@ -77,9 +92,7 @@ const Sidebar = ({ socket, setActiveChat }) => {
             <div className={style.headerDiv}><h4 className={style.header}>{!showUsers ? "Список чатов" : "Список пользователей"}</h4></div>
 
             <div className={style.userListDiv}>
-                <ul className={style.usersList}>
-                    {listFormat()}
-                </ul>
+                {listFormat()}
             </div>
 
             <div className={style.buttonsDiv}>

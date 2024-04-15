@@ -22,7 +22,7 @@ const Body = ({ messages, status, socket, user, setUserData }) => {
             <div className={style.container}>
                 {
                     messages.map(mess =>
-                        mess.from !== localStorage.getItem('user') ? (
+                        mess.from === user ? (
                             <div className={style.chats} key={Math.random()}>
                                 <p className={style.senderName}>{mess.from}</p>
                                 <div className={style.messageSender}>

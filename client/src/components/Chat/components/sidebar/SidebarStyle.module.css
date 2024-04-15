@@ -19,10 +19,11 @@
 }
 
 .userListDiv {
+    position: relative;
     box-sizing: border-box;
     flex: 1 1 auto;
     overflow: auto;
-    padding: 5px;
+    padding: 5px 0px;
 }
 
 .buttonsDiv {
@@ -31,45 +32,25 @@
     justify-content: center;
     position: relative;
     min-height: 10vh;
-    border-top:1px solid rgb(1, 47, 175) ;
+    border-top: 1px solid rgb(1, 47, 175);
 }
 
 .header {
     font-size: 25px;
 }
 
-
 .userListDiv::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
-
 
 .userListDiv::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
 }
 
-.userListDiv::-webkit-scrollbar-track{
+.userListDiv::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.3);
-}
-
-.usersList>li {
-    cursor: pointer;
-}
-
-.userAccount {
-    padding: 0px 0px 20px 20px;
-    border-radius: 10px;
-    min-height: 7vh;
-    font-size: 16px;
-    font-weight: 700;
-    color: #687eaa;
-    list-style: none;
-}
-
-.userAccount:hover {
-    background-color: rgba(202, 202, 202, 0.7);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .searchUser {

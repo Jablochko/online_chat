@@ -2,7 +2,7 @@ import React from 'react'
 import style from './BodyStyles.module.css'
 import { useNavigate } from 'react-router-dom'
 
-const Body = ({ messages, status, socket, user, setUserData }) => {
+const Body = ({ messages, socket, user, setUserData }) => {
 
     const navigate = useNavigate()
 
@@ -39,11 +39,6 @@ const Body = ({ messages, status, socket, user, setUserData }) => {
                         )
                     )
                 }
-
-                <div className={style.status}>
-                    <p>{status}</p>
-                </div>
-
             </div>
         </>
     )

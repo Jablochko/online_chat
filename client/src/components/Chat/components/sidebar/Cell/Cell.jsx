@@ -1,4 +1,3 @@
-import { useState } from "react";
 import style from './Cell.module.css'
 
 export default function Cell({data, onClick, selected = false}) {

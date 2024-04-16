@@ -9,14 +9,18 @@ const socket = socketIO.connect("http://localhost:3001");
 function App() {
 
   const [userData, setUserData] = useState(null);
-  
+
   return (
     <Routes>
-      <Route path="/" element={<HomePage socket={socket} setUserData={setUserData}/>} />
+      <Route path="/" element={
+        <HomePage
+          socket={socket}
+          setUserData={setUserData}
+        />} />
       <Route path="/chat" element={
-        <ChatPage 
-          socket={socket} 
-          user={userData} 
+        <ChatPage
+          socket={socket}
+          user={userData}
           setUserData={setUserData}
         />} />
     </Routes>

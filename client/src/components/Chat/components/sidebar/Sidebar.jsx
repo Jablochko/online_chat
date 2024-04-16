@@ -7,17 +7,12 @@ const Sidebar = ({ socket, setActiveChat, activeChat }) => {
 
     const [newChatUsers, setChatUsers] = useState({});
     const [showUsers, setShowUsers] = useState(false)
-    const [acceptUser, setAcceptUser] = useState(false)
     const [users, setUsers] = useState({});
     const [chats, setChats] = useState({})
     const [createChat, setCreateChat] = useState(false);
 
     useEffect(() => {
         socket.on('allUsers', (users) => {
-            /*{
-                name: string,
-                id: number,
-            }*/
             const userList = {}
             users.forEach(user => {
                 userList[user.id] = {
@@ -29,8 +24,6 @@ const Sidebar = ({ socket, setActiveChat, activeChat }) => {
         });
 
         socket.on('chatList', (chats) => {
-
-            console.log(chats)
             const chatList = {}
             chats.forEach(chat => {
                 chatList[chat.chatId] = {

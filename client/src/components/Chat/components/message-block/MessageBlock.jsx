@@ -13,10 +13,6 @@ const MessageBlock = ({ socket, user, activeChat}) => {
                 chatId: activeChat,
                 text: message,
             } )
-            console.log({
-                chatId: activeChat,
-                text: message,
-            })
         }
         setMessage('')
     }

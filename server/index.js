@@ -57,8 +57,6 @@ socketIO.on("connection", (socket) => {
             chatId: message.chatId
         })
     });
-    // статутс 
-    socket.on('typing', (data) => socket.emit('responseTyping', data));
 
     socket.on("getAllUsers", () => {
         socket.emit("allUsers", getAllUsers());
@@ -80,16 +78,6 @@ socketIO.on("connection", (socket) => {
         const chatId = newId();
         data.members.forEach(member => joinChat(member - 0, chatId));
         joinChat(sockets[socket.id], chatId);
-        // console.log(socketIO.sockets.adapter.rooms.get(chatId));
-        //socketIO.to(chatId).emit("newChat", );
-        /*const user = socket.data.user;
-        
-        user.chats[chatId] = {
-            id: chatId,
-            name: data.name,
-            members: data.members.push(user)
-        };
-        socket.join(chatId);*/
     })
     // показать список чатов
     socket.on('allChats', () => {

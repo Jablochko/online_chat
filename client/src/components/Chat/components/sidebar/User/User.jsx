@@ -7,7 +7,6 @@ export default function User({data, onClick}) {
     const onClickHandler = () => {
         onClick(data.id, selected);
         setSelected(!selected);
-        console.log(123);
     }
 
     return <Cell onClick={onClickHandler} data={data} selected={selected}></Cell>
